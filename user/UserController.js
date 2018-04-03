@@ -37,7 +37,10 @@ router.get('/:id', function (req, res) {
 router.delete('/:id', function (req, res) {
     User.findByIdAndRemove(req.params.id, function (err, user) {
         if (err) return res.status(500).send("There was a problem deleting the user.");
-        res.status(200).send("User "+ user.name +" was deleted.");
+        if (user != null)
+            res.status(200).send("User "+ user.name +" was deleted.")
+        else
+            res.status(404).send("User not found");
     });
 });
 // UPDATES A SINGLE USER IN THE DATABASE
