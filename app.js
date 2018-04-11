@@ -5,5 +5,7 @@ var db = require('./db');
 
 var UserController = require('./user/UserController');
 app.use('/users', UserController);
+var TimeController = require('./Time/TimeController');
+app.use('/time', TimeController);
 
 module.exports = app;
