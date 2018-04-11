@@ -1,7 +1,11 @@
 // app.js
 var express = require('express');
+var morgan = require('morgan');
+
 var app = express();
 var db = require('./db');
+
+app.use(morgan('dev'));
 
 var UserController = require('./user/UserController');
 app.use('/users', UserController);
