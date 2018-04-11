@@ -11,5 +11,7 @@ var UserController = require('./user/UserController');
 app.use('/users', UserController);
 var TimeController = require('./time/TimeController');
 app.use('/time', TimeController);
+var UpdateController = require('./bus/update/UpdateController');
+app.use('/bus/update', UpdateController);
 
 module.exports = app;
