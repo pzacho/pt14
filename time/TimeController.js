@@ -51,8 +51,8 @@ router.get('/brightness', function(req, res) {
         var midday = moment(response.Sunrise, "HH:mm");
         var sr = moment(response.Sunrise, "HH:mm");
         var ss = moment(response.Sunset, "HH:mm");
-        var md2 = ss.diff(sr)/2;
-        midday.add(md2, 'ms');
+        var md2 = ss.diff(sr)/2000;
+        midday.add(md2, 's');
         fact = Math.abs(moment().unix()-midday.unix())/md2;
         if (fact > 1) {
             fact = 1;
