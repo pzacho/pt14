@@ -38,7 +38,7 @@ router.get('/sun', function(req, res) {
 
 router.get('/brightness', function(req, res) {
     // calculate brightness between 0 (full) and -0.95 (low)
-    var bness = -95;
+    var bness = -0.95;
 
     // check if today's sunrise and -set is known
     var sunrise = req.app.get('sun');
