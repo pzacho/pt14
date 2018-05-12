@@ -3,7 +3,8 @@ var express = require('express');
 var router = express.Router()
 var bodyParser = require('body-parser');
 var moment = require('moment');
-var Domoticz = require('../lib/domoticz.js');
+//var Domoticz = require('../lib/domoticz.js');
+var Sunrise = require('../lib/sunrise.js');
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 var Time = require('./Time');
@@ -18,42 +19,47 @@ router.get('/', function (req, res) {
 // Get sunrise and sunset data from server
 router.get('/sun', function(req, res) {
     // check if today's sunrise and -set is known
-    var sun = req.app.get('sun');
-    var domoticz = new Domoticz();
-    if (sun === undefined) {
-        domoticz.getSunriseSunset()
-        .then((result) => {
-            req.app.set('sun', result);
-            res.status(200).send(result);
-        },
-        (reject) => {
-            console.log(reject);
-            res.set(404).send('Not found');
-        })
+
+    var sunrise = req.app.get('sun');
+    if (sunrise === undefined) {
+        sunrise = new Sunrise();
+        req.app.set('sun', sunrise);
     }
-    else {
-        if (moment().diff(sun.ServerTime, 'days') > 0) {
-            // update sunrise and -set time
-            domoticz.getSunriseSunset()
-            .then((result) => {
-                req.app.set('sun', result);
-                res.status(200).send(result);
-            },
-            (reject) => {
-                console.log(reject);
-                res.set(404).send('Not found');
-            })
-        }
-        else {
-            // just return cached value
-            res.status(200).send(req.app.get('sun'));
-        }
-    }
+
+    var data = sunrise.getSunriseSunset()
+    .then((response) =>
+    {
+        res.status(200).send(response);
+    },
+    (reject) => {
+        res.status(404).send("Failed to update");
+    })
 })
 
 router.get('/brightness', function(req, res) {
-    var sun = req.app.get('sun');
-    
+    // calculate brightness between 0 (full) and -0.95 (low)
+    var bness = -95;
+
+    // check if today's sunrise and -set is known
+    var sunrise = req.app.get('sun');
+    if (sunrise === undefined) {
+        sunrise = new Sunrise();
+        req.app.set('sun', sunrise);
+    }
+    sunrise.getSunriseSunset()
+    .then((response) => {
+        var midday = moment(response.Sunrise, "HH:mm");
+        var sr = moment(response.Sunrise, "HH:mm");
+        var ss = moment(response.Sunset, "HH:mm");
+        var md2 = ss.diff(sr)/2;
+        midday.add(md2, 'ms');
+        fact = Math.abs(moment().unix()-midday.unix())/md2;
+        if (fact > 1) {
+            fact = 1;
+        }
+        bness = Math.round(bness * fact * 100)/100;
+        res.status(200).send(bness.toString());
+    })
 })
 
 module.exports = router;
