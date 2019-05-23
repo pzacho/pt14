@@ -13,5 +13,7 @@ var TimeController = require('./time/TimeController');
 app.use('/time', TimeController);
 var UpdateController = require('./bus/update/UpdateController');
 app.use('/bus/update', UpdateController);
+var ToolsController = require('./tools/ToolsController');
+app.use('/tools', ToolsController);
 
 module.exports = app;
