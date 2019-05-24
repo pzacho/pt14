@@ -14,7 +14,7 @@ router.post('/docker/stripheader', function (req, res) {
             loglines.push(element.substr(8));       
         });
         res.status(200).send({
-            log: loglines.join('\n')
+            log: loglines.reverse().join('\n')
         })
     } else {
         res.status(204).send();
