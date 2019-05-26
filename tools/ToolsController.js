@@ -11,7 +11,9 @@ router.post('/docker/stripheader', function (req, res) {
         var log = req.body.log.split('\n');
         var loglines = [];
         log.forEach(element => {
-            loglines.push(element.substr(8));       
+            var trimElem = element.substr(8);
+            if (trimElem.trim() != '')
+                loglines.push(trimElem);       
         });
         res.status(200).send({
             log: loglines.reverse().join('\n')
