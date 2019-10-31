@@ -22,7 +22,7 @@
     "body-parser": "^1.18.2",
     "express": "^4.16.3",
     "moment": "^2.22.1",
-    "mongoose": "^5.0.12",
+    "mongoose": "^5.7.5",
     "mongose": "0.0.2-security",
     "morgan": "^1.9.0",
     "npm": "^5.8.0"
