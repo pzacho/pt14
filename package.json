@@ -19,8 +19,8 @@
   "homepage": "https://github.com/pzacho/pt14#readme",
   "dependencies": {
     "axios": "^0.18.0",
-    "body-parser": "^1.18.2",
-    "express": "^4.16.3",
+    "body-parser": "^1.20.1",
+    "express": "^4.18.2",
     "moment": "^2.22.1",
     "mongoose": "^5.0.12",
     "mongose": "0.0.2-security",
